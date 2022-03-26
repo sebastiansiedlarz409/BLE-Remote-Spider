@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             BackgroundImageSource="background.png"
+             NavigationPage.HasNavigationBar="false"
+             x:Class="BLESpiderApp.ManualView">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="buttonStyle" TargetType="Button">
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="TextColor" Value="#000000"/>
+                <Setter Property="BackgroundColor" Value="#66ffbb99" />
+                <Setter Property="TextColor" Value="#EEEEEE" />
+            </Style>
+
+            <Style x:Key="imageButtonStyle" TargetType="ImageButton">
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="Padding" Value="5,10,5,10" />
+                <Setter Property="BackgroundColor" Value="#66ffbb99" />
+                <Setter Property="Opacity" Value="0.9" />
+            </Style>
+
+            <Style x:Key="navsStyle" TargetType="ImageButton">
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="BackgroundColor" Value="#3f3f3f"/>
+                <Setter Property="Opacity" Value="0.9"/>
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Margin="10,10,10,10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <Grid VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="4*"></RowDefinition>
+                    <RowDefinition Height="4*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="ConnectionBtn" Text="Connect!" Grid.Row="0" Grid.Column="0" Style="{StaticResource buttonStyle}" TextColor="Red"/>
+                <Button x:Name="ParamsBtn" Text="S: 0 DIR: 0 FORWARD" Grid.Row="0" Grid.Column="1" Style="{StaticResource buttonStyle}"/>
+                <Button x:Name="SwitchViewBtn" Text="Przełącz!" Grid.Row="0" Grid.Column="2" Style="{StaticResource buttonStyle}"/>
+
+                <ImageButton x:Name="SpeedUpBtn" Source="up_arrow.png" Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Style="{StaticResource imageButtonStyle}"/>
+                <ImageButton x:Name="StopBtn" Source="stop.png" Grid.Row="1" Grid.Column="1" Style="{StaticResource imageButtonStyle}"/>
+                <ImageButton x:Name="DirBtn" Source="dir_change.png" Grid.Row="2" Grid.Column="1" Style="{StaticResource imageButtonStyle}"/>
+                <ImageButton x:Name="SpeedDwBtn" Source="down_arrow.png" Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Style="{StaticResource imageButtonStyle}"/>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
