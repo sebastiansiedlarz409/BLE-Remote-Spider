@@ -108,6 +108,68 @@ void SetPWM(uint8_t channelIndex, uint32_t value)
 		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
 	}
 }
+
+void SetDirection(uint8_t axis, uint8_t dir){
+	if(axis == LEFT){
+		if(dir == FRONT){
+			HAL_GPIO_WritePin(DIRL_1_GPIO_Port, DIRL_1_Pin, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(DIRL_2_GPIO_Port, DIRL_2_Pin, GPIO_PIN_RESET);
+		}
+		else{
+			HAL_GPIO_WritePin(DIRL_1_GPIO_Port, DIRL_1_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(DIRL_2_GPIO_Port, DIRL_2_Pin, GPIO_PIN_SET);
+		}
+	}
+	if(axis == RIGHT){
+		if(dir == FRONT){
+			HAL_GPIO_WritePin(DIRR_1_GPIO_Port, DIRR_1_Pin, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(DIRR_2_GPIO_Port, DIRR_2_Pin, GPIO_PIN_RESET);
+		}
+		else{
+			HAL_GPIO_WritePin(DIRR_1_GPIO_Port, DIRR_1_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(DIRR_2_GPIO_Port, DIRR_2_Pin, GPIO_PIN_SET);
+		}
+	}
+}
+
+void DriveSpider(void){
+	if(FORWARD == 1){
+		SetDirection(LEFT, FRONT);
+		SetDirection(RIGHT, FRONT);
+	}
+	else{
+		SetDirection(LEFT, BACK);
+		SetDirection(RIGHT, BACK);
+	}
+
+
+	uint8_t sl = SPEED;
+	uint8_t sr = SPEED;
+
+	uint8_t d = 0;
+	if(DIR<0){
+		d = (uint8_t)(DIR * -1);
+	}
+	else{
+		d = DIR;
+	}
+
+	if(DIR >= 0){
+		if((sl-d) >= 0)
+			sl -= d;
+		if((sr+d) <= 100)
+			sr += d;
+	}
+	else{
+		if((sl+d) <= 100)
+			sl += d;
+		if((sr-d) >= 0)
+			sr -= d;
+	}
+
+	SetPWM(1, sl);
+	SetPWM(2, sr);
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -156,6 +218,17 @@ int main(void)
   while (1)
   {
 	BTLE_Process();
+
+	if(connected){
+
+		DriveSpider();
+	}
+	else{
+		if(discoverable){
+		}
+		else{
+		}
+	}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -325,9 +398,14 @@ static void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_12, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4|GPIO_PIN_5|DIRR_1_Pin|DIRR_2_Pin
+                          |GPIO_PIN_12, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, DIRL_1_Pin|DIRL_2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PA0 */
   GPIO_InitStruct.Pin = GPIO_PIN_0;
@@ -335,12 +413,21 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PA4 PA5 PA12 */
-  GPIO_InitStruct.Pin = GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_12;
+  /*Configure GPIO pins : PA4 PA5 DIRR_1_Pin DIRR_2_Pin
+                           PA12 */
+  GPIO_InitStruct.Pin = GPIO_PIN_4|GPIO_PIN_5|DIRR_1_Pin|DIRR_2_Pin
+                          |GPIO_PIN_12;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : DIRL_1_Pin DIRL_2_Pin */
+  GPIO_InitStruct.Pin = DIRL_1_Pin|DIRL_2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
