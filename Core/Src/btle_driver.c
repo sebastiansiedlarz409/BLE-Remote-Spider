@@ -180,10 +180,10 @@ uint8_t BTLE_StackInit(void){
 	HANDLE appearance_char_handle;
 
 	hci_reset();
-	HAL_Delay(2000);
+	HAL_Delay(1000);
 
 	//setup device address
-	uint8_t bdaddr[] = {0x3C, 0x53, 0x45, 0x42, 0x41, 0x3E};
+	uint8_t bdaddr[] = {0x28, 0x53, 0x45, 0x42, 0x41, 0x29};
 	ret = aci_hal_write_config_data(CONFIG_DATA_PUBADDR_OFFSET, CONFIG_DATA_PUBADDR_LEN, bdaddr);
 	if(ret != BLE_STATUS_SUCCESS){
 		BTLE_DBG("BTLE Setting Addr Failed: %u\r\n", ret);
