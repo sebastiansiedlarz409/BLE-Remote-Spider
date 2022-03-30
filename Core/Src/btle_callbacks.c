@@ -11,10 +11,17 @@
 extern HANDLE mainCharTxHandle;
 extern HANDLE mainCharRxHandle;
 
+#define LEFT 0
+#define RIGHT 1
+#define STOPD 2
+#define FRONT 0
+#define BACK 1
+
 extern uint8_t SPEED;
 extern int8_t DIR;
 extern uint8_t FORWARD;
 
+extern void SetDirection(uint8_t axis, uint8_t dir);
 extern void SetPWM(uint8_t channelIndex, uint32_t value);
 
 void BTLE_DisconnectHandler(void){
@@ -23,6 +30,8 @@ void BTLE_DisconnectHandler(void){
 	FORWARD = 1;
 	SetPWM(1, 0);
 	SetPWM(2, 0);
+	SetDirection(LEFT, STOPD);
+	SetDirection(RIGHT, STOPD);
 }
 
 void BTLE_CommandsHandler(uint8_t size, uint8_t *buffer){

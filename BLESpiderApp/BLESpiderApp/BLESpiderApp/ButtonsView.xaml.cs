@@ -18,7 +18,7 @@ namespace BLESpiderApp
 
         private byte SPEED = 0;
         private sbyte DIR = 0;
-        private byte FORWARD = 0;
+        private byte FORWARD = 1;
 
         public ButtonsView()
         {
@@ -45,7 +45,7 @@ namespace BLESpiderApp
             SPEED = 0;
             DIR = 0;
 
-            ParamsBtn.Text = $"S: {SPEED} DIR: {DIR} {(FORWARD == 0 ? "FORWARD" : "BACKWARD")}";
+            ParamsBtn.Text = $"S: {SPEED} DIR: {DIR} {(FORWARD == 1 ? "FORWARD" : "BACKWARD")}";
 
             SendCommands();
 
@@ -63,27 +63,27 @@ namespace BLESpiderApp
 
             FORWARD = FORWARD == (byte)1 ? (byte)0 : (byte)1;
 
-            ParamsBtn.Text = $"S: {SPEED} DIR: {DIR} {(FORWARD == 0 ? "FORWARD" : "BACKWARD")}";
+            ParamsBtn.Text = $"S: {SPEED} DIR: {DIR} {(FORWARD == 1 ? "FORWARD" : "BACKWARD")}";
 
             SendCommands();
         }
 
         private void RightBtn_Clicked(object sender, EventArgs e)
         {
-            if (DIR <= 40)
+            if (DIR <= 70)
                 DIR += 10;
 
-            ParamsBtn.Text = $"S: {SPEED} DIR: {DIR} {(FORWARD == 0 ? "FORWARD" : "BACKWARD")}";
+            ParamsBtn.Text = $"S: {SPEED} DIR: {DIR} {(FORWARD == 1 ? "FORWARD" : "BACKWARD")}";
 
             SendCommands();
         }
 
         private void LeftBtn_Clicked(object sender, EventArgs e)
         {
-            if (DIR >= -40)
+            if (DIR >= -70)
                 DIR -= 10;
 
-            ParamsBtn.Text = $"S: {SPEED} DIR: {DIR} {(FORWARD == 0 ? "FORWARD" : "BACKWARD")}";
+            ParamsBtn.Text = $"S: {SPEED} DIR: {DIR} {(FORWARD == 1 ? "FORWARD" : "BACKWARD")}";
 
             SendCommands();
         }
@@ -93,7 +93,7 @@ namespace BLESpiderApp
             SPEED = 0;
             DIR = 0;
 
-            ParamsBtn.Text = $"S: {SPEED} DIR: {DIR} {(FORWARD == 0 ? "FORWARD" : "BACKWARD")}";
+            ParamsBtn.Text = $"S: {SPEED} DIR: {DIR} {(FORWARD == 1 ? "FORWARD" : "BACKWARD")}";
 
             SendCommands();
         }
@@ -108,7 +108,7 @@ namespace BLESpiderApp
                     SPEED -= 10;
             }
 
-            ParamsBtn.Text = $"S: {SPEED} DIR: {DIR} {(FORWARD == 0 ? "FORWARD" : "BACKWARD")}";
+            ParamsBtn.Text = $"S: {SPEED} DIR: {DIR} {(FORWARD == 1 ? "FORWARD" : "BACKWARD")}";
 
             SendCommands();
         }
@@ -123,7 +123,7 @@ namespace BLESpiderApp
                     SPEED += 10;
             }
 
-            ParamsBtn.Text = $"S: {SPEED} DIR: {DIR} {(FORWARD == 0 ? "FORWARD" : "BACKWARD")}";
+            ParamsBtn.Text = $"S: {SPEED} DIR: {DIR} {(FORWARD == 1 ? "FORWARD" : "BACKWARD")}";
 
             SendCommands();
         }

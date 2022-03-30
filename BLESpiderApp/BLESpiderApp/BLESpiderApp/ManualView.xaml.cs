@@ -18,7 +18,7 @@ namespace BLESpiderApp
 
         private byte SPEED = 0;
         private sbyte DIR = 0;
-        private byte FORWARD = 0;
+        private byte FORWARD = 1;
 
         private int Y = 0;
 
@@ -61,12 +61,12 @@ namespace BLESpiderApp
 
         private void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
         {
-            Y = (int)((e.Reading.Acceleration.Y * 100)) / 2;
+            Y = (int)((e.Reading.Acceleration.Y * 100)) /2;
 
             if (SPEED >= 30)
                 DIR = (sbyte)Y;
 
-            ParamsBtn.Text = $"S: {SPEED} DIR: {Y} {(FORWARD == 0 ? "FORWARD" : "BACKWARD")}";
+            ParamsBtn.Text = $"S: {SPEED} DIR: {Y} {(FORWARD == 1 ? "FORWARD" : "BACKWARD")}";
 
             SendCommands();
         }
