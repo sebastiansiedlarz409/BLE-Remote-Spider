@@ -1,6 +1,6 @@
 # BTLE-Remote-Spider
 
-Remote car driven by Xamarin App over Bluetooth Low Energy
+Remote spider driven by Xamarin App over Bluetooth Low Energy
 
 Project elements:
 * NUCLEO-L432KC dev nucleo board
